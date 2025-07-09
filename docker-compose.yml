@@ -16,4 +16,4 @@ services:
       - ${APP_PORT:-4001}:4001
     environment:
       BOT_TOKEN: ${APP_TOKEN}
-      REDIS_HOST: redis
+      REDIS_URL: redis
