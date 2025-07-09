@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis
+    restart: always
+    container_name: lanyard_redis
+  lanyard:
+    image: phineas/lanyard
+    build: ./Dockerfile
+    restart: always
+    container_name: lanyard
+    depends_on:
+      - redis
+    ports:
+      - ${APP_PORT:-4001}:4001
+    environment:
+      BOT_TOKEN: ${APP_TOKEN}
+      REDIS_HOST: redis
