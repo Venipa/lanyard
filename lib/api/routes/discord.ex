@@ -7,6 +7,6 @@ defmodule Lanyard.Api.Routes.Discord do
 
   get "/" do
     # Discord invite URL
-    Util.redirect(conn, "https://discord.gg/WScAm7vNGF")
+    Util.redirect(conn, "https://venipa.net")
   end
 end
