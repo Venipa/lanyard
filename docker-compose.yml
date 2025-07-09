@@ -19,3 +19,6 @@ services:
     environment:
       BOT_TOKEN: ${APP_TOKEN}
       REDIS_URL: redis://redis:6379
+    links:
+      - redis
+
