@@ -5,6 +5,8 @@ services:
     image: redis
     restart: always
     container_name: lanyard_redis
+    ports:
+      - 6379
   lanyard:
     image: phineas/lanyard
     build: .
@@ -16,4 +18,4 @@ services:
       - ${APP_PORT:-4001}:4001
     environment:
       BOT_TOKEN: ${APP_TOKEN}
-      REDIS_URL: redis
+      REDIS_URL: redis://redis:6379
