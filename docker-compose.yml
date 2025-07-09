@@ -7,7 +7,7 @@ services:
     container_name: lanyard_redis
   lanyard:
     image: phineas/lanyard
-    build: ./Dockerfile
+    build: .
     restart: always
     container_name: lanyard
     depends_on:
