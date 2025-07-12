@@ -2,10 +2,15 @@ version: "3.8"
 
 services:
   redis:
-    image: redis
-    restart: always
-    ports:
-      - 6379
+    image: redis:7.2.4-alpine
+    restart: unless-stopped
+    command: >
+      redis-server
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+      --maxmemory-samples 5
+    volumes:
+      - lanyard_presence_data:/data:rw
   lanyard:
     image: phineas/lanyard
     build: .
@@ -20,3 +25,5 @@ services:
     links:
       - redis
 
+volumes:
+  lanyard_presence_data:
