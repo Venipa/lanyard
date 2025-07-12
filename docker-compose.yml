@@ -4,14 +4,12 @@ services:
   redis:
     image: redis
     restart: always
-    container_name: lanyard_redis
     ports:
       - 6379
   lanyard:
     image: phineas/lanyard
     build: .
     restart: always
-    container_name: lanyard
     depends_on:
       - redis
     ports:
