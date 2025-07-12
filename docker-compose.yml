@@ -11,6 +11,8 @@ services:
       --maxmemory-samples 5
     volumes:
       - lanyard_presence_data:/data:rw
+    networks:
+      - internal
   lanyard:
     image: phineas/lanyard
     build: .
@@ -24,6 +26,15 @@ services:
       REDIS_URL: redis://redis:6879
     links:
       - redis
+    networks:
+      - internal
+      - web
 
 volumes:
   lanyard_presence_data:
+
+networks:
+  web:
+    driver: bridge
+  internal:
+    driver: bridge
