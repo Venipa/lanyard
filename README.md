@@ -43,7 +43,6 @@ The Lanyard community has worked on some pretty cool projects that allows you to
 [react-use-lanyard](https://github.com/barbarbar338/react-use-lanyard) - React hook for Lanyard - supports REST & WebSocket \
 [use-lanyard](https://github.com/alii/use-lanyard) - Another React hook for Lanyard that uses SWR \
 [lanyard-visualizer](https://lanyard-visualizer.netlify.app/) - Beautifully display your Discord presence on a website \
-[hawser](https://github.com/5elenay/hawser) - Lanyard API wrapper for python. Supports both REST and WebSocket. \
 [js-lanyard](https://github.com/xaronnn/js-lanyard/) - Use Lanyard in your Web App. \
 [go-lanyard](https://github.com/barbarbar338/go-lanyard) - Lanyard API wrapper for GoLang - supports REST & WebSocket \
 [use-lanyard](https://github.com/LeonardSSH/use-lanyard) - Lanyard with Composition API for Vue. Supports REST and WebSocket methods \
@@ -56,8 +55,9 @@ The Lanyard community has worked on some pretty cool projects that allows you to
 [discord-status-actions](https://github.com/CompeyDev/discord-status-action) - Updates a file to include your discord status using the Lanyard API. \
 [discordstatus-website](https://github.com/lucaledd/discordstatus-website) - Display your Discord status on your own website with premade CSS, and JS \
 [osu-nowplaying](https://github.com/Hexality/osu-nowplaying) - A small tool to scrape the info of the map you're curently playing on osu!lazer and dump into a file for obs to read. \
-[lanyard.py](https://github.com/sawshadev/lanyard-py) - An asynchronous implementation of the Lanyard websocket and HTTP for python \
-[landart](https://pub.dev/packages/landart) - A featureful API wrapper for Lanyard & Lanyard KV written in Dart.
+[landart](https://pub.dev/packages/landart) - A featureful API wrapper for Lanyard & Lanyard KV written in Dart. \
+[lanyard.py](https://github.com/nerma-now/lanyard.py) - Modern and fully asynchronous wrapper for Lanyard API written in Python 3.12+. \
+[lanyard-mcp-server](https://github.com/NNTin/lanyard-mcp-server) - Exposing Lanyard API in MCP - with Docker support
 
 ## API Docs
 
@@ -204,7 +204,7 @@ The user's KV store will be merged with the body of the request. Conflicting key
 
 The websocket is available at `wss://api.lanyard.rest/socket`. If you would like to use compression, please specify `?compression=zlib_json` at the end of the URL.
 
-Once connected, you will receive Opcode 1: Hello which will contain heartbeat_interval in the data field. You should set a repeating interval for the time specified in heartbeat_interval which should send Opcode 3: Heartbeat on the interval.
+Once connected, you will receive Opcode 1: Hello which will contain `heartbeat_interval` in the data field. You should set a repeating interval for the time specified in `heartbeat_interval` which should send Opcode 3: Heartbeat on the interval.
 
 You should send `Opcode 2: Initialize` immediately after receiving Opcode 1.
 
