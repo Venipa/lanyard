@@ -9,11 +9,9 @@ defmodule Lanyard.Api.Routes.V1.Users do
   plug(:dispatch)
 
   get "/@me" do
-    key = conn |> Plug.Conn.get_req_header("authorization")
-
-    case Redis.get("api_key:#{key}") do
-      user_id when is_binary(user_id) ->
-        Util.respond(conn, Presence.get_pretty_presence(user_id))
+    case fetch_authenticated_user_id(conn) do
+      authenticated_user_id when is_binary(authenticated_user_id) ->
+        Util.respond(conn, Presence.get_pretty_presence(authenticated_user_id))
 
       _ ->
         Util.no_permission(conn)
@@ -21,13 +19,13 @@ defmodule Lanyard.Api.Routes.V1.Users do
   end
 
   get "/:id" do
-    %Plug.Conn{params: %{"id" => user_id}} = conn
+    %Plug.Conn{params: %{"id" => requested_user_id}} = conn
 
-    key = conn |> Plug.Conn.get_req_header("authorization")
-
-    case Redis.get("api_key:#{key}") do
-      user_id when is_binary(user_id) ->
-        Util.respond(conn, Presence.get_pretty_presence(user_id))
+    case fetch_authenticated_user_id(conn) do
+      authenticated_user_id when is_binary(authenticated_user_id) ->
+        # Keep API key owner auth separate from requested user ID.
+        _ = authenticated_user_id
+        Util.respond(conn, Presence.get_pretty_presence(requested_user_id))
 
       _ ->
         Util.no_permission(conn)
@@ -104,14 +102,23 @@ defmodule Lanyard.Api.Routes.V1.Users do
 
   defp validate_resource_access(conn) do
     %Plug.Conn{params: %{"id" => user_id}} = conn
-    key = conn |> Plug.Conn.get_req_header("authorization")
-
-    case Redis.get("api_key:#{key}") do
+    
+    case fetch_authenticated_user_id(conn) do
       ^user_id ->
         :ok
 
       _ ->
         :no_permission
+    end
+  end
+
+  defp fetch_authenticated_user_id(conn) do
+    case Plug.Conn.get_req_header(conn, "authorization") do
+      [api_key | _] when is_binary(api_key) and api_key != "" ->
+        Redis.get("api_key:#{api_key}")
+
+      _ ->
+        nil
     end
   end
 end
